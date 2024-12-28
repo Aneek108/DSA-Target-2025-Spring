@@ -26,11 +26,47 @@ class BinarySearchTree:
     def is_empty(self) -> bool:
         return self.root is None
 
-    # def inorder_traversal(self) -> list[int|float]:
-    #     traverse = []
+    def inorder_traversal(self) -> list[int|float]:
+        traverse = []
 
-    #     def inorder_traversal_helper(node: Node) -> list[int|float]:
+        def inorder_traversal_helper(node: Node) -> list[int|float]:
+            if node is None:
+                return
 
+            inorder_traversal_helper(node.left)
+            traverse.append(node.val)
+            inorder_traversal_helper(node.right)
+
+        inorder_traversal_helper(self.root)
+        return traverse
+
+    def preorder_traversal(self) -> list[int|float]:
+        traverse = []
+
+        def preorder_traversal_helper(node: Node) -> list[int|float]:
+            if node is None:
+                return
+
+            traverse.append(node.val)
+            preorder_traversal_helper(node.left)
+            preorder_traversal_helper(node.right)
+
+        preorder_traversal_helper(self.root)
+        return traverse
+    
+    def postorder_traversal(self) -> list[int|float]:
+        traverse = []
+
+        def postorder_traversal_helper(node: Node) -> list[int|float]:
+            if node is None:
+                return
+
+            postorder_traversal_helper(node.left)
+            postorder_traversal_helper(node.right)
+            traverse.append(node.val)
+
+        postorder_traversal_helper(self.root)
+        return traverse
 
     def insert(self, val: int|float) -> None:
         if self.root is None:
