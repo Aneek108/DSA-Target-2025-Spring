@@ -80,11 +80,13 @@ class BinarySearchTree:
                     current.left = Node(val)
                     return
                 current = current.left
-            else:
+            elif val > current.val:
                 if current.right is None:
                     current.right = Node(val)
                     return
                 current = current.right
+            else: # If value already exists
+                return
 
     def search(self, val: int|float) -> Node|None:
         if self.root is None:
@@ -127,6 +129,10 @@ class BinarySearchTree:
                 parent = current
                 current = current.right
                 is_left_child = False
+        
+        # If node not found
+        if current is None:
+            return self.root
 
         # If leaf node
         if current.left is None and current.right is None:
@@ -209,10 +215,12 @@ if __name__ == "__main__":
     BST = BinarySearchTree()
 
     # Insert initial elements
-    vals = [5, 2, 3, 4, 10, 1]
+    vals = [5, 2, 3, 4, 10, 1, 2]
     for _ in vals:
         BST.insert(_)
     
     print(BST.is_balanced())
     print(BST.height())
-    print()
+    print(BST.inorder_traversal())
+    BST.delete(5)
+    print(BST.inorder_traversal())
