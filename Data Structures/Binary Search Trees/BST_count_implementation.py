@@ -8,11 +8,6 @@ class Node:
 class BinarySearchTree:
     def __init__(self) -> None:
         self.root: Node|None = None
-
-    def peek(self) -> Node|None:
-        if self.root is None:
-            return
-        return self.root.val
     
     def is_leaf_node(node: Node) -> bool:
         return node.left is None and node.right is None
