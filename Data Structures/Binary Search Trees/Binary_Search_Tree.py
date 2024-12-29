@@ -211,6 +211,14 @@ class BinarySearchTree:
 
         return is_balanced_helper(self.root)[1]
 
+    def node_count(self) -> int:
+        def node_count_helper(node: Node) -> int:
+            if node is None:
+                return 0
+            return node_count_helper(node.left) + node_count_helper(node.right) + 1
+
+        return node_count_helper(self.root)
+
 if __name__ == "__main__":
     BST = BinarySearchTree()
 
@@ -224,3 +232,4 @@ if __name__ == "__main__":
     print(BST.inorder_traversal())
     BST.delete(5)
     print(BST.inorder_traversal())
+    print(BST.node_count())
