@@ -129,19 +129,6 @@ class BinarySearchTree(BinaryTree):
             successor_parent.left = successor.right
 
         return self.root
-        if self.root is None:
-            return -1
-
-        def height_helper(node: Node) -> int:
-            if node is None:
-                return -1
-
-            height_left = height_helper(node.left)
-            height_right = height_helper(node.right)
-
-            return max(height_left, height_right) + 1
-
-        return height_helper(self.root)
 
 if __name__ == "__main__":
     BST = BinarySearchTree()
