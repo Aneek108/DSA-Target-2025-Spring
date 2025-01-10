@@ -1,5 +1,4 @@
-from Binary_Tree import Node
-from Binary_Search_Tree import BinarySearchTree
+from Binary_Search_Tree import BinarySearchTree, Node
 
 class Count_Node(Node):
     def __init__(self, val: int|float) -> None:
