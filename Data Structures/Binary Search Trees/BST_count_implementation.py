@@ -1,108 +1,35 @@
-class Node:
+from Binary_Tree import Node
+from Binary_Search_Tree import BinarySearchTree
+
+class Count_Node(Node):
     def __init__(self, val: int|float) -> None:
-        self.val = val
+        super().__init__(val)
         self.count = 1
-        self.left: Node|None = None
-        self.right: Node|None = None
 
-class BinarySearchTree:
+class Count_BST(BinarySearchTree):
     def __init__(self) -> None:
-        self.root: Node|None = None
-    
-    def is_leaf_node(node: Node) -> bool:
-        return node.left is None and node.right is None
-
-    def find_min(node: Node) -> Node:
-        current = node
-        while current.left is not None:
-            current = current.left
-        return current
-
-    def find_max(node: Node) -> Node:
-        current = node
-        while current.right is not None:
-            current = current.right
-        return current
-
-    def is_empty(self) -> bool:
-        return self.root is None
-
-    def inorder_traversal(self) -> list[int|float]:
-        traverse = []
-
-        def inorder_traversal_helper(node: Node) -> list[int|float]:
-            if node is None:
-                return
-
-            inorder_traversal_helper(node.left)
-            traverse.append(node.val)
-            inorder_traversal_helper(node.right)
-
-        inorder_traversal_helper(self.root)
-        return traverse
-
-    def preorder_traversal(self) -> list[int|float]:
-        traverse = []
-
-        def preorder_traversal_helper(node: Node) -> list[int|float]:
-            if node is None:
-                return
-
-            traverse.append(node.val)
-            preorder_traversal_helper(node.left)
-            preorder_traversal_helper(node.right)
-
-        preorder_traversal_helper(self.root)
-        return traverse
-    
-    def postorder_traversal(self) -> list[int|float]:
-        traverse = []
-
-        def postorder_traversal_helper(node: Node) -> list[int|float]:
-            if node is None:
-                return
-
-            postorder_traversal_helper(node.left)
-            postorder_traversal_helper(node.right)
-            traverse.append(node.val)
-
-        postorder_traversal_helper(self.root)
-        return traverse
+        self.root: Count_Node|None = None
 
     def insert(self, val: int|float) -> None:
         if self.root is None:
-            self.root = Node(val)
+            self.root = Count_Node(val)
             return
 
         current = self.root
         while True:
             if val < current.val:
                 if current.left is None:
-                    current.left = Node(val)
+                    current.left = Count_Node(val)
                     return
                 current = current.left
             elif val > current.val:
                 if current.right is None:
-                    current.right = Node(val)
+                    current.right = Count_Node(val)
                     return
                 current = current.right
             else: # If value already exists
                 current.count += 1
                 return
-
-    def search(self, val: int|float) -> Node|None:
-        if self.root is None:
-            return
-
-        current = self.root
-        while current is not None:
-            if val == current.val:
-                return current
-            elif val < current.val:
-                current = current.left
-            else:
-                current = current.right
-        return None
 
     def delete(self, val: int|float) -> Node|None:
         """
@@ -186,48 +113,18 @@ class BinarySearchTree:
             successor_parent.left = successor.right
 
         return self.root
-    
-    def height(self) -> int:
-        if self.root is None:
-            return -1
 
-        def height_helper(node: Node) -> int:
-            if node is None:
-                return -1
-
-            height_left = height_helper(node.left)
-            height_right = height_helper(node.right)
-
-            return max(height_left, height_right) + 1
-
-        return height_helper(self.root)
-
-    def is_balanced(self) -> bool:
-
-        def is_balanced_helper(node: Node) -> tuple[int, bool]:
-            if node is None:
-                return 0, True
-
-            height_left, balanced_left = is_balanced_helper(node.left)
-            height_right, balanced_right = is_balanced_helper(node.right)
-
-            # Check if both left and right subtrees are balanced and the difference of their heights is at most 1.
-            balanced = (balanced_left and balanced_right and abs(height_left - height_right) <= 1)
-
-            return max(height_left, height_right) + 1, balanced
-
-        return is_balanced_helper(self.root)[1]
-    
-    def node_count(self) -> int:
-        def node_count_helper(node: Node) -> int:
+    def intensive_node_count(self) -> int:
+        
+        def intensive_node_count_helper(node: Count_Node) -> int:
             if node is None:
                 return 0
-            return node_count_helper(node.left) + node_count_helper(node.right) + node.count
-
-        return node_count_helper(self.root)
+            return node.count + intensive_node_count_helper(node.left) + intensive_node_count_helper(node.right)
+        
+        return intensive_node_count_helper(self.root)
 
 if __name__ == "__main__":
-    BST = BinarySearchTree()
+    BST = Count_BST()
 
     # Insert initial elements
     vals = [5, 2, 3, 4, 10, 1, 2]
@@ -240,3 +137,4 @@ if __name__ == "__main__":
     BST.delete(5)
     print(BST.inorder_traversal())
     print(BST.node_count())
+    print(BST.intensive_node_count())
